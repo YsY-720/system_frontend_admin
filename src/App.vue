@@ -3,7 +3,14 @@
 </script>
 
 <template>
-    <h2>hello world</h2>
+    <div class="main">
+        <RouterView />
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.main {
+    height: 100vh;
+    overflow: hidden;
+}
+</style>
