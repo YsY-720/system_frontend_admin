@@ -15,7 +15,7 @@ const originalFormData = {
 const formData = reactive({ ...originalFormData })
 const rules: Record<string, Rule[]> = {
     username: [{ required: true, message: '账号不能为空', trigger: 'change' }],
-    password: [{ required: true, message: '账号不能为空', trigger: 'change' }]
+    password: [{ required: true, message: '密码不能为空', trigger: 'change' }]
 }
 
 //登录
@@ -36,11 +36,6 @@ async function submit(value: typeof originalFormData) {
         console.log(e)
     }
 }
-
-//忘记密码
-function forgetPassword() {
-    $router.push({ name: 'updatePassword' })
-}
 </script>
 
 <template>
@@ -55,11 +50,6 @@ function forgetPassword() {
                     <InputPassword v-model:value="formData.password" />
                 </FormItem>
                 <FormItem>
-                    <div class="links">
-                        <Button type="link" size="small" @click="forgetPassword">忘记密码？</Button>
-                    </div>
-                </FormItem>
-                <FormItem>
                     <Button type="primary" style="width: 100%;" html-type="submit">登录</Button>
                 </FormItem>
             </Form>
@@ -67,23 +57,17 @@ function forgetPassword() {
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .login-container {
     width: 350px;
     margin: 5% auto;
-}
 
-.title {
-    text-align: center;
-}
+    .title {
+        text-align: center;
+    }
 
-.form-container {
-    padding-top: 16px;
-}
-
-.links {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    .form-container {
+        padding-top: 16px;
+    }
 }
 </style>

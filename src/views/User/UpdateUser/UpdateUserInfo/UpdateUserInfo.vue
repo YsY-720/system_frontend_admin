@@ -71,7 +71,7 @@ async function submit(params: typeof formData) {
     const { code, message: msg, data } = res.data
     if (code === 200 || code === 201) {
         message.success(data)
-        await $router.replace('/meeting_room/meeting_list')
+        await $router.replace('/control_center/meet_room_control')
     } else {
         message.error(msg)
     }
@@ -102,7 +102,7 @@ function countdown() {
                 <FormItem label="头像" name="headPic">
                     <img v-show="formData.headPic && formData.headPic !== ''" class="avatar"
                         :src="`${IMAGE_URL}${formData.headPic}`" alt="">
-                    <UploadDragger v-model:file-list="fileList" name="file" :multiple="false" action="api/file/upload"
+                    <UploadDragger v-model:file-list="fileList" name="file" :multiple="false" action="/api/file/upload"
                         @change="uploadChange">
                         <p class="ant-upload-drag-icon">
                             <InboxOutlined></InboxOutlined>

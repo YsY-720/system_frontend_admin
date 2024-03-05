@@ -1,0 +1,14 @@
+// 刷选条件区域公共样式
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+
+
+    .item {
+        padding: 0 8px 8px 0;
+    }
+
+    .search {
+        width: 200px;
+    }
+}

@@ -21,7 +21,7 @@ function menuSelected({ key }: { key: any }) {
 </script>
 
 <template>
-    <div class="meeting-room-container">
+    <div class="control-center-container">
         <div class="menu">
             <Menu :items="menuItem" mode="inline" v-model:selectedKeys="selectedKeys" @select="menuSelected"
                 style="height: 100%;">
@@ -35,9 +35,9 @@ function menuSelected({ key }: { key: any }) {
 </template>
 
 <style scoped lang="scss">
-.meeting-room-container {
+.control-center-container {
     width: 100%;
-    height: 80%;
+    height: 100%;
     display: flex;
 
     .menu {
