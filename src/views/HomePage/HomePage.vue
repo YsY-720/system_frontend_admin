@@ -58,7 +58,7 @@ function loginOut() {
 <style scoped lang="scss">
 .home-container {
     margin: 5% auto;
-    width: 60%;
+    width: 85%;
     height: 85%;
 
 

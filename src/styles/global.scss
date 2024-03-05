@@ -12,3 +12,10 @@
         width: 200px;
     }
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    height: 60px;
+}

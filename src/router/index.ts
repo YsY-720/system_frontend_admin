@@ -13,7 +13,6 @@ const router = createRouter({
                     path: 'control_center',
                     name: 'controlCenter',
                     component: () => import('@/views/ControlCenter/ControlCenter.vue'),
-                    redirect: 'control_center/meet_room_control',
                     children: [
                         {
                             path: 'meet_room_control',
@@ -45,7 +44,6 @@ const router = createRouter({
                     path: 'update_user',
                     name: 'updateUser',
                     component: () => import('@/views/User/UpdateUser/UpdateUser.vue'),
-                    redirect: 'update_user/update_user_info',
                     children: [
                         {
                             path: 'update_user_info',

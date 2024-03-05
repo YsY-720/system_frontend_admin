@@ -2,12 +2,12 @@
 import { GroupOutlined, AppstoreOutlined, TeamOutlined, GoldOutlined } from '@ant-design/icons-vue'
 import { Menu, } from 'ant-design-vue'
 import type { ItemType } from 'ant-design-vue'
-import { h, reactive, ref } from 'vue'
+import { h, reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-const selectedKeys = ref<string[]>(['meet_room_control'])
+const selectedKeys = ref<string[]>()
 
 const menuItem: ItemType[] = reactive([
     { label: '会议室管理', key: 'meet_room_control', icon: () => h(GroupOutlined) },
@@ -18,6 +18,10 @@ const menuItem: ItemType[] = reactive([
 function menuSelected({ key }: { key: any }) {
     $router.push('/control_center/' + key)
 }
+onMounted(() => {
+    selectedKeys.value = ['meet_room_control']
+    menuSelected({ key: 'meet_room_control' })
+})
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script lang='ts' setup>
-import { reactive, ref, h } from 'vue'
+import { reactive, ref, h, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Menu, } from 'ant-design-vue'
 import { SolutionOutlined, SafetyOutlined } from '@ant-design/icons-vue'
@@ -14,12 +14,17 @@ const menuItem: ItemType[] = reactive([
 ])
 
 //导航默认选中项
-const selectedKeys = ref<string[]>(['update_user_info'])
+const selectedKeys = ref<string[]>()
 
 //导航切换
 async function menuSelected({ key }: { key: any }) {
     await $router.push('/update_user/' + key)
 }
+
+onMounted(() => {
+    selectedKeys.value = ['update_user_info']
+    menuSelected({ key: 'update_user_info' })
+})
 </script>
 
 <template>

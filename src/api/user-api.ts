@@ -37,3 +37,8 @@ export function update_user_captcha<T = string>() {
 export function get_user_list<T = UserList>(data: UserListQuery) {
     return request.get<T>(`/user/list?pageNum=${data.pageNum}&pageSize=${data.pageSize}&username=${data.username}&nickName=${data.nickName}&email=${data.email}`)
 }
+
+//冻结用户
+export function frozen_user<T = string>({ id, isFrozen }: { id: number, isFrozen: number }) {
+    return request.get<T>(`/user/freeze?id=${id}&isFrozen=${isFrozen}`)
+}
