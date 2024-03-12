@@ -28,7 +28,7 @@ async function submit(value: typeof originalFormData) {
             sessionStorage.setItem('token', data.accessToken)
             sessionStorage.setItem('refresh_token', data.refreshToken)
             sessionStorage.setItem('user_info', JSON.stringify(data.userInfo))
-            $router.replace({ name: 'homePage' })
+            setTimeout(() => $router.replace({ name: 'homePage' }), 1000)
         } else {
             message.error(msg)
         }
