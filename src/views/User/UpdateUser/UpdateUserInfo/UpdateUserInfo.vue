@@ -5,7 +5,7 @@ import { InboxOutlined } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
 import { useRouter } from 'vue-router'
 
-import { get_user_info, update_user_captcha, update_user } from '@/api/user-api'
+import { get_user_info, update_user_captcha, updateUser } from '@/api/user-api'
 
 const $router = useRouter()
 
@@ -67,7 +67,7 @@ async function getCaptCode() {
 }
 
 async function submit(params: typeof formData) {
-    const res = await update_user(params)
+    const res = await updateUser(params)
     const { code, message: msg, data } = res.data
     if (code === 200 || code === 201) {
         message.success(data)

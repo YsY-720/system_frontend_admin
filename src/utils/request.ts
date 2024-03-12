@@ -54,6 +54,10 @@ export class Request {
     public post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<Result<T>>> {
         return this.instance.post(url, data, config)
     }
+    
+    public delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<Result<T>>> {
+        return this.instance.delete(url, config)
+    }
 }
 
 export default new Request({})

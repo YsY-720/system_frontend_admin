@@ -1,12 +1,13 @@
 <script lang='ts' setup>
 import { h, reactive, ref, onMounted } from 'vue'
-import { Input, Button, Table, Pagination } from 'ant-design-vue'
+import { Input, Button, Table, Pagination, message } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import type { ColumnsType } from 'ant-design-vue/es/table'
+import type { MeetingRoom } from '@/types/meetingRoom'
+
 import EditMeetRoom from '@/components/MeetRoomList/EditMeetRoom.vue'
 
-import { get_meet_room_list } from '@/api/meetingRoom-api'
-import type { MeetingRoom } from '@/types/meetingRoom'
+import { getMeetRoomList, deleteMeetRoom } from '@/api/meetingRoom-api'
 
 
 onMounted(() => {
@@ -85,9 +86,10 @@ const columns: ColumnsType = [
 let tableData = reactive<MeetingRoom[]>([])
 const totalCount = ref(0)
 
+//获取表格数据
 async function getTableData() {
     loading.value = true
-    const res = await get_meet_room_list(queryList)
+    const res = await getMeetRoomList(queryList)
     const { code, message: msg, data } = res.data
     if (code === 200 || code === 201) {
         tableData = data.meetingRooms
@@ -99,10 +101,31 @@ async function getTableData() {
     loading.value = false
 }
 
-//编辑
+
 const showEdit = ref(false)
+const editMeetRoom = ref<InstanceType<typeof EditMeetRoom>>()
+//新增
+function handleAdd() {
+    showEdit.value = true
+    editMeetRoom.value?.init()
+}
+
+//编辑
 function handleEdit(data: MeetingRoom) {
     showEdit.value = true
+    editMeetRoom.value?.init(data.id as number)
+}
+
+//删除
+async function handleDelete(id: number) {
+    const res = await deleteMeetRoom(id)
+    const { code, message: msg, data } = res.data
+    if (code === 200 || code === 201) {
+        message.success(data)
+        getTableData()
+    } else {
+        message.error(msg)
+    }
 }
 
 </script>
@@ -126,7 +149,7 @@ function handleEdit(data: MeetingRoom) {
                 <Button type="primary" :icon="h(SearchOutlined)" @click="handleSearch">查询</Button>
             </div>
             <div class="btn item">
-                <Button type="primary" :icon="h(PlusOutlined)">新增</Button>
+                <Button type="primary" :icon="h(PlusOutlined)" @click="handleAdd">新增</Button>
             </div>
         </div>
         <div class="table-container">
@@ -135,7 +158,7 @@ function handleEdit(data: MeetingRoom) {
                 <template #bodyCell="{ column, record, index }">
                     <template v-if="column.key === 'handle'">
                         <Button type="link" @click="handleEdit(record as MeetingRoom)">编辑</Button>
-                        <Button type="link" danger>删除</Button>
+                        <Button type="link" danger @click="handleDelete(record.id)">删除</Button>
                     </template>
                 </template>
             </Table>
@@ -145,7 +168,7 @@ function handleEdit(data: MeetingRoom) {
                 </Pagination>
             </div>
         </div>
-        <EditMeetRoom v-model:show="showEdit" />
+        <EditMeetRoom ref="editMeetRoom" @refreh="getTableData" v-model:show="showEdit" />
     </div>
 </template>
 

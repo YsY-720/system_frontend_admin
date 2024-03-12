@@ -10,7 +10,7 @@ export function login<T = any>(data: { username: string, password: string }) {
 
 
 //修改管理员信息
-export function update_user<T = string>(data: { nickName: string, headPic: string, captcha: string }) {
+export function updateUser<T = string>(data: { nickName: string, headPic: string, captcha: string }) {
     return request.post('/user/admin/update', data)
 }
 
