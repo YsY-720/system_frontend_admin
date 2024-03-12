@@ -8,18 +8,19 @@ export function login<T = any>(data: { username: string, password: string }) {
     return request.post<T>('/user/admin/login', data)
 }
 
-//修改管理员密码
-export function update_password<T = any>(data: Register) {
-    return request.post<T>('/user/update_password', data)
-}
 
 //修改管理员信息
 export function update_user<T = string>(data: { nickName: string, headPic: string, captcha: string }) {
     return request.post('/user/admin/update', data)
 }
 
+//修改管理员密码
+export function update_admin_password<T = string>(data: Register) {
+    return request.post('/user/admin/update_password', data)
+}
+
 //获取当前登录用户信息
-export function getUserInfo<T = UserInfo>() {
+export function get_user_info<T = UserInfo>() {
     return request.get<T>('/user/info')
 }
 

@@ -5,7 +5,7 @@ import { InboxOutlined } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
 import { useRouter } from 'vue-router'
 
-import { getUserInfo, update_user_captcha, update_user } from '@/api/user-api'
+import { get_user_info, update_user_captcha, update_user } from '@/api/user-api'
 
 const $router = useRouter()
 
@@ -43,7 +43,7 @@ function uploadChange(info: UploadChangeParam) {
 
 //初始化用户信息
 onMounted(async () => {
-    const res = await getUserInfo()
+    const res = await get_user_info()
     const { code, message: msg, data } = res.data
     if (code === 200 || code === 201) {
         formData.nickName = data.nickName

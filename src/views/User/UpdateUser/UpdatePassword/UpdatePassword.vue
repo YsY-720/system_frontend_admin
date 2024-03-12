@@ -1,9 +1,31 @@
 <script lang='ts' setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { Form, FormItem, Input, InputPassword, Button, message } from 'ant-design-vue'
 import type { Rule } from 'ant-design-vue/es/form'
 
-import { update_password_captcha, update_password } from '@/api/user-api'
+import {
+    update_password_captcha,
+    update_admin_password,
+    get_user_info
+} from '@/api/user-api'
+
+const $router = useRouter()
+
+
+//初始化用户信息
+onMounted(async () => {
+    const res = await get_user_info()
+    const { code, message: msg, data } = res.data
+    if (code === 200 || code === 201) {
+        formData.username = data.username
+        formData.email = data.email
+    } else {
+        message.error(msg)
+    }
+})
+
+
 
 const originalFormData = {
     username: '',
@@ -66,10 +88,14 @@ async function getCaptCode() {
 
 //提交
 async function submit(values: typeof originalFormData) {
-    const res = await update_password<string>(values)
+    const res = await update_admin_password(formData)
     const { code, message: msg, data } = res.data
     if (code === 200 || code === 201) {
         message.success(data)
+        setTimeout(() => {
+            sessionStorage.removeItem('token')
+            $router.replace('/login')
+        }, 1000)
     } else {
         message.error(msg)
     }
@@ -79,12 +105,8 @@ async function submit(values: typeof originalFormData) {
 
 <template>
     <div class="update-password-container">
-        <h1 class="title">会议室预定系统</h1>
         <div class="form-container">
             <Form :model="formData" layout="vertical" :rules="rules" @finish="submit">
-                <FormItem label="账号" name="username">
-                    <Input v-model:value="formData.username"></Input>
-                </FormItem>
                 <FormItem label="新的密码" name="password">
                     <InputPassword v-model:value="formData.password"></InputPassword>
                 </FormItem>
@@ -92,7 +114,7 @@ async function submit(values: typeof originalFormData) {
                     <InputPassword v-model:value="formData.checkPassword"></InputPassword>
                 </FormItem>
                 <FormItem label="邮箱" name="email">
-                    <Input v-model:value="formData.email"></Input>
+                    <Input v-model:value="formData.email" disabled></Input>
                 </FormItem>
                 <FormItem label="验证码" name="captcha">
                     <div class="captcha-code">
@@ -110,33 +132,27 @@ async function submit(values: typeof originalFormData) {
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .update-password-container {
-    width: 350px;
-    margin: 5% auto;
-}
-
-.title {
-    text-align: center;
-}
-
-.form-container {
-    padding-top: 16px;
-}
-
-
-.captcha-code {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
 
-}
+    .form-container {
+        width: 350px;
+        margin: 20px auto;
 
-.captcha-code .ant-input {
-    width: 65%;
-}
+        .captcha-code {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
 
-.captcha-code .ant-btn {
-    width: 30%;
+            .ant-input {
+                width: 65%;
+            }
+
+            .ant-btn {
+                width: 30%;
+            }
+        }
+    }
 }
 </style>
