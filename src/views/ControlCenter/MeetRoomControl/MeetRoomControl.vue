@@ -1,7 +1,7 @@
 <script lang='ts' setup>
 import { h, reactive, ref, onMounted } from 'vue'
 import { Input, Button, Table, Pagination, message } from 'ant-design-vue'
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import type { ColumnsType } from 'ant-design-vue/es/table'
 import type { MeetingRoom } from '@/types/meetingRoom'
 
@@ -157,8 +157,12 @@ async function handleDelete(id: number) {
                 bordered :scroll="{ y: '500px' }">
                 <template #bodyCell="{ column, record, index }">
                     <template v-if="column.key === 'handle'">
-                        <Button type="link" @click="handleEdit(record as MeetingRoom)">编辑</Button>
-                        <Button type="link" danger @click="handleDelete(record.id)">删除</Button>
+                        <Button type="link" @click="handleEdit(record as MeetingRoom)" :icon="h(EditOutlined)">
+                            编辑
+                        </Button>
+                        <Button type="link" danger @click="handleDelete(record.id)" :icon="h(DeleteOutlined)">
+                            删除
+                        </Button>
                     </template>
                 </template>
             </Table>

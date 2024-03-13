@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 import { computed, reactive, ref } from 'vue'
-import { Modal, Form, FormItem, Input, message } from 'ant-design-vue'
+import { Modal, Form, FormItem, Input, message, Textarea } from 'ant-design-vue'
 
 import type { MeetingRoom } from '@/types/meetingRoom'
 import type { Rule } from 'ant-design-vue/es/form'
@@ -43,7 +43,6 @@ async function init(id?: number) {
         const res = await getMeetRoomById(id)
         const { code, message: msg, data } = res.data
         if (code === 200 || code == 201) {
-            console.log(data)
             formData.value = data
         } else {
             formData.value = { ...originalFormData }
@@ -73,7 +72,7 @@ async function handleAdd() {
         setTimeout(() => {
             handleClose()
             $emits('refreh')
-        }, 1000)
+        }, 500)
     } else {
         message.error(msg)
     }
@@ -89,7 +88,7 @@ async function handleEdit() {
         setTimeout(() => {
             handleClose()
             $emits('refreh')
-        }, 1000)
+        }, 500)
     } else {
         message.error(msg)
     }
@@ -107,7 +106,7 @@ defineExpose({ init })
 </script>
 
 <template>
-    <Modal v-model:open="visible" :title="mode" @cancel="handleClose" @ok="handleSubmit" width="350px">
+    <Modal v-model:open="visible" :title="mode" @cancel="handleClose" @ok="handleSubmit" width="450px">
         <div class="dialog-container">
             <Form ref="form" :model="formData" layout="vertical" :rules="rules">
                 <FormItem label="会议室名称" name="name">
@@ -121,6 +120,9 @@ defineExpose({ init })
                 </FormItem>
                 <FormItem label="会议室位置" name="location">
                     <Input v-model:value="formData.location" />
+                </FormItem>
+                <FormItem label="描述" name="description">
+                    <Textarea v-model:value="formData.description" :auto-size="{ minRows: 2, maxRows: 5 }" />
                 </FormItem>
             </Form>
         </div>
