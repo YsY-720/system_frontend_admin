@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +13,7 @@ const router = createRouter({
                     path: 'control_center',
                     name: 'controlCenter',
                     component: () => import('@/views/ControlCenter/ControlCenter.vue'),
+                    meta: { requireLogin: true },
                     children: [
                         {
                             path: 'meet_room_control',
@@ -75,14 +76,14 @@ const router = createRouter({
 
         },
     ]
-})
+});
 
 router.beforeEach((to, from) => {
-    let { requireLogin } = to.meta
-    let token = sessionStorage.getItem('token')
+    let { requireLogin } = to.meta;
+    let token = sessionStorage.getItem('token');
     if (requireLogin && !token) {
-        return { name: 'login' }
+        return { name: 'login' };
     }
-})
+});
 
-export default router
+export default router;
